@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI サッカー試合予測</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="background-glob"></div>
+    <div class="container">
+        <header>
+            <h1>AI サッカー試合予測</h1>
+            <p>次世代の試合分析システム</p>
+        </header>
+
+        <main>
+            <section id="matches-section">
+                <h2>開催予定の試合</h2>
+                <div id="matches-list" class="matches-grid">
+                    <!-- Matches will be injected here -->
+                    <div class="loading">試合データを読み込み中...</div>
+                </div>
+            </section>
+
+            <section id="prediction-section" class="hidden">
+                <button id="back-btn" class="secondary-btn">← 試合一覧に戻る</button>
+                <div class="prediction-card">
+                    <div class="match-header">
+                        <div class="team home">
+                            <span class="team-name" id="p-home-name">ホーム</span>
+                        </div>
+                        <div class="vs">VS</div>
+                        <div class="team away">
+                            <span class="team-name" id="p-away-name">アウェイ</span>
+                        </div>
+                    </div>
+
+                    <div class="prediction-content">
+                        <h3>AI 勝敗予測分析</h3>
+                        <div class="win-probability">
+                            <div class="prob-bar-container">
+                                <div id="prob-home" class="prob-bar home" style="width: 33%">ホーム</div>
+                                <div id="prob-draw" class="prob-bar draw" style="width: 34%">引き分け</div>
+                                <div id="prob-away" class="prob-bar away" style="width: 33%">アウェイ</div>
+                            </div>
+                            <div class="prob-labels">
+                                <span id="label-home">33%</span>
+                                <span id="label-draw">34%</span>
+                                <span id="label-away">33%</span>
+                            </div>
+                        </div>
+                        <p id="analysis-text" class="analysis-text">
+                            データ分析中...
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
