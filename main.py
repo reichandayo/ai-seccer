@@ -3,6 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from services import FootballDataService, PredictionService
 from pydantic import BaseModel
+import json
 
 app = FastAPI()
 
@@ -50,13 +51,24 @@ def predict_match(
 ):
     """
     Predict match outcome. 
-    For MVP, we accept team names directly to save API calls for looking up match details by ID again.
     """
-    # 1. Get Team Stats (Mocked or Real)
-    # real implementation would find team IDs and call API
-    home_stats = football_service.get_team_stats(None, home_team)
-    away_stats = football_service.get_team_stats(None, away_team)
+    home_stats = {}
+    away_stats = {}
     
+    if match_id:
+        details = football_service.get_match_details(match_id)
+        if details:
+            home_id = details['homeTeam']['id']
+            away_id = details['awayTeam']['id']
+            home_stats = football_service.get_team_stats(home_id)
+            away_stats = football_service.get_team_stats(away_id)
+        else:
+            home_stats = {"name": home_team, "info": "Failed to fetch real stats"}
+            away_stats = {"name": away_team, "info": "Failed to fetch real stats"}
+    else:
+         home_stats = {"name": home_team, "info": "No match ID provided"}
+         away_stats = {"name": away_team, "info": "No match ID provided"}
+
     # 2. Call AI
     prediction = prediction_service.predict_match(
         home_team, 

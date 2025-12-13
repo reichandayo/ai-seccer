@@ -40,8 +40,15 @@ body {
 }
 
 @keyframes pulse {
-    0% { transform: scale(1); opacity: 0.5; }
-    100% { transform: scale(1.1); opacity: 0.8; }
+    0% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
 }
 
 .container {
@@ -99,6 +106,19 @@ header p {
     gap: 1rem;
     flex-grow: 1;
     justify-content: center;
+}
+
+/* NEW: Container for team name and crest */
+.team-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.team-crest-small {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
 }
 
 .team-name {
@@ -160,6 +180,35 @@ header p {
     font-size: 1.5rem;
 }
 
+/* NEW: Large crests for prediction page */
+.team-display-large {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 40%;
+}
+
+.team-crest-large {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 0.5rem;
+}
+
+.team-name-large {
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.vs-large {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-secondary);
+    margin: 0 1rem;
+}
+
 .prediction-content h3 {
     margin-bottom: 1rem;
     font-size: 1.2rem;
@@ -172,9 +221,9 @@ header p {
 
 .prob-bar-container {
     display: flex;
-    height: 12px;
-    background: rgba(0,0,0,0.3);
-    border-radius: 6px;
+    height: 30px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
     overflow: hidden;
     margin-bottom: 0.5rem;
 }
@@ -182,11 +231,27 @@ header p {
 .prob-bar {
     height: 100%;
     transition: width 1s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-.prob-bar.home { background-color: var(--win-color); }
-.prob-bar.draw { background-color: var(--draw-color); }
-.prob-bar.away { background-color: var(--loss-color); }
+.prob-bar.home {
+    background-color: var(--win-color);
+}
+
+.prob-bar.draw {
+    background-color: var(--draw-color);
+}
+
+.prob-bar.away {
+    background-color: var(--loss-color);
+}
 
 .prob-labels {
     display: flex;
@@ -197,7 +262,7 @@ header p {
 
 .analysis-text {
     line-height: 1.6;
-    background: rgba(0,0,0,0.2);
+    background: rgba(0, 0, 0, 0.2);
     padding: 1.5rem;
     border-radius: 12px;
     border-left: 4px solid var(--accent-color);
@@ -210,11 +275,25 @@ header p {
 }
 
 @keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

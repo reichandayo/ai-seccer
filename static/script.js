@@ -7,6 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Prediction Elements
     const pHomeName = document.getElementById('p-home-name');
     const pAwayName = document.getElementById('p-away-name');
+
+    // New: Emblem elements for prediction view
+    // We will inject these dynamically or assume the HTML structure needs them.
+    // Let's modify the showPrediction logic to inject images directly into the DOM headers if simpler,
+    // or we can select them if they existed. 
+    // Since index.html doesn't have img tags yet, we will manipulate the DOM in showPrediction to add them or replace text content with HTML.
+
     const probHome = document.getElementById('prob-home');
     const probDraw = document.getElementById('prob-draw');
     const probAway = document.getElementById('prob-away');
@@ -46,14 +53,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
             });
 
+            // Use crest if available, otherwise fallback or empty
+            const homeCrest = match.homeTeam.crest || '';
+            const awayCrest = match.awayTeam.crest || '';
+
             const card = document.createElement('div');
             card.className = 'match-card';
             card.innerHTML = `
                 <div class="match-date">${date}</div>
                 <div class="match-info">
-                    <span class="team-name">${match.homeTeam.name}</span>
+                    <div class="team-container">
+                        ${homeCrest ? `<img src="${homeCrest}" class="team-crest-small" alt="${match.homeTeam.name}">` : ''}
+                        <span class="team-name">${match.homeTeam.name}</span>
+                    </div>
                     <span class="vs">VS</span>
-                    <span class="team-name">${match.awayTeam.name}</span>
+                    <div class="team-container">
+                        <span class="team-name">${match.awayTeam.name}</span>
+                        ${awayCrest ? `<img src="${awayCrest}" class="team-crest-small" alt="${match.awayTeam.name}">` : ''}
+                    </div>
                 </div>
             `;
 
@@ -67,8 +84,23 @@ document.addEventListener('DOMContentLoaded', () => {
         matchesSection.classList.add('hidden');
         predictionSection.classList.remove('hidden');
 
-        pHomeName.textContent = match.homeTeam.name;
-        pAwayName.textContent = match.awayTeam.name;
+        // Update Header with Emblems
+        const matchHeader = document.querySelector('.match-header');
+        const homeCrest = match.homeTeam.crest || '';
+        const awayCrest = match.awayTeam.crest || '';
+
+        // Safely constructing HTML for the header
+        matchHeader.innerHTML = `
+            <div class="team-display-large">
+                ${homeCrest ? `<img src="${homeCrest}" class="team-crest-large" alt="${match.homeTeam.name}">` : ''}
+                <div id="p-home-name" class="team-name-large">${match.homeTeam.name}</div>
+            </div>
+            <div class="vs-large">VS</div>
+            <div class="team-display-large">
+                ${awayCrest ? `<img src="${awayCrest}" class="team-crest-large" alt="${match.awayTeam.name}">` : ''}
+                <div id="p-away-name" class="team-name-large">${match.awayTeam.name}</div>
+            </div>
+        `;
 
         // Reset state
         analysisText.innerHTML = 'AIが分析中... <span style="display:inline-block; animation: pulse 1s infinite">🤖</span>';
@@ -84,7 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const pred = data.prediction;
             setProbabilities(pred.home_win, pred.draw, pred.away_win);
-            // Replace newlines with <br> for better readability if needed, or just textContent
             analysisText.textContent = pred.analysis;
 
         } catch (error) {
@@ -94,7 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function setProbabilities(home, draw, away) {
-        // Handle 0 cases visually
         const total = home + draw + away;
         if (total === 0) {
             probHome.style.width = '33%';
