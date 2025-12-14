@@ -1,8 +1,14 @@
-document.addEventListener('DOMContentLoaded', () => {
+﻿document.addEventListener('DOMContentLoaded', () => {
     const matchesList = document.getElementById('matches-list');
     const matchesSection = document.getElementById('matches-section');
     const predictionSection = document.getElementById('prediction-section');
     const backBtn = document.getElementById('back-btn');
+
+    // Team Background Mapping
+    const teamBackgrounds = {
+        'Manchester United FC': 'bruno_fernandes.png',
+    };
+    const defaultBackground = 'old_trafford.png';
 
     // Prediction Elements
     const pHomeName = document.getElementById('p-home-name');
@@ -28,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     backBtn.addEventListener('click', () => {
         predictionSection.classList.add('hidden');
         matchesSection.classList.remove('hidden');
+        document.body.style.backgroundImage = url('');
     });
 
     async function fetchMatches() {
@@ -83,6 +90,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // UI Updates
         matchesSection.classList.add('hidden');
         predictionSection.classList.remove('hidden');
+
+        // Dynamic Background Update
+        let bgImage = defaultBackground;
+        if (teamBackgrounds[match.homeTeam.name]) {
+            bgImage = teamBackgrounds[match.homeTeam.name];
+        } else if (teamBackgrounds[match.awayTeam.name]) {
+            bgImage = teamBackgrounds[match.awayTeam.name];
+        }
+        document.body.style.backgroundImage = `url('$`{bgImage}')`;
 
         // Update Header with Emblems
         const matchHeader = document.querySelector('.match-header');
